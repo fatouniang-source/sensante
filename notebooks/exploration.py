@@ -8,6 +8,9 @@ import pandas as pd
 # ===== CHARGER LES DONNEES =====
 df = pd.read_csv("data/patients_dakar.csv")
 
+# 🔥 IMPORTANT : nettoyer les noms de colonnes (enlever les espaces)
+df.columns = df.columns.str.strip()
+
 # ===== PREMIERS APERCUS =====
 print("=" * 50)
 print("SENSANTE - Exploration du dataset")
@@ -47,6 +50,14 @@ temp_by_diag = df.groupby("diagnostic")["temperature"].mean()
 
 for diag, temp in temp_by_diag.items():
     print(f"{diag:12s} : {temp:.1f} °C")
+
+# ===== EXERCICE 1 : REPARTITION PAR SEXE ET DIAGNOSTIC =====
+print("\n--- Répartition par sexe et diagnostic ---")
+
+result = df.groupby(["sexe", "diagnostic"]).size()
+
+for (sexe, diagnostic), count in result.items():
+    print(f"Sexe: {sexe} | {diagnostic:12s} : {count} patients")
 
 print("\n" + "=" * 50)
 print("Exploration terminée !")
