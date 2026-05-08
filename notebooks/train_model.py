@@ -175,3 +175,99 @@ print("\nProbabilites par classe :")
 for classe, proba in zip(model_loaded.classes_, probas):
     bar = '#' * int(proba * 30)
     print(f"{classe:8s} : {proba:.1%} {bar}")
+
+
+
+# EXERCICE 1 : Importance des features
+print("EXERCICE 1 : Importance des features")
+
+importances = model.feature_importances_
+for name, imp in sorted(zip(feature_cols, importances),
+                        key=lambda x: x[1], reverse=True):
+    print(f"{name:20s} : {imp:.3f}")
+
+
+
+
+
+print("EXERCICE 2 : Prédictions sur 3 patients fictifs")
+
+patients_fictifs = [
+
+    {
+        'description': "Jeune sans symptômes",
+        'age': 20,
+        'sexe': 'M',
+        'temperature': 37.0,
+        'tension_sys': 120,
+        'toux': False,
+        'fatigue': False,
+        'maux_tete': False,
+        'region': 'Dakar'
+    },
+
+    {
+        'description': "Adulte avec forte fièvre",
+        'age': 35,
+        'sexe': 'F',
+        'temperature': 40.5,
+        'tension_sys': 95,
+        'toux': True,
+        'fatigue': True,
+        'maux_tete': True,
+        'region': 'Thiès'
+    },
+
+    {
+        'description': "Patient âgé avec toux",
+        'age': 68,
+        'sexe': 'M',
+        'temperature': 38.2,
+        'tension_sys': 145,
+        'toux': True,
+        'fatigue': True,
+        'maux_tete': False,
+        'region': 'Saint-Louis'
+    }
+]
+
+for p in patients_fictifs:
+
+    # Encodage
+    s_enc = le_sexe_loaded.transform([p['sexe']])[0]
+    r_enc = le_region_loaded.transform([p['region']])[0]
+
+    # IMPORTANT :
+    # ordre EXACT des colonnes du training
+
+    feat = pd.DataFrame([[
+        p['age'],
+        s_enc,
+        p['temperature'],
+        p['tension_sys'],
+        int(p['toux']),
+        int(p['fatigue']),
+        int(p['maux_tete']),
+        r_enc
+    ]], columns=[
+
+        'age',
+        'sexe_encoded',
+        'temperature',
+        'tension_sys',
+        'toux',
+        'fatigue',
+        'maux_tete',
+        'region_encoded'
+    ])
+
+    # Prédiction
+    diag = model_loaded.predict(feat)[0]
+
+    # Probabilité
+    prob = model_loaded.predict_proba(feat)[0].max()
+
+    # Affichage
+    print(f"\n🧑 {p['description']} ({p['sexe']}, {p['age']} ans)")
+    print(f"   → Diagnostic : {diag} ({prob:.1%})")
+
