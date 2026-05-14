@@ -17,6 +17,17 @@ app = FastAPI(
     version="0.2.0"
 )
 
+from fastapi.middleware.cors import CORSMiddleware
+
+# Autoriser les requêtes depuis le frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En dev : tout accepter
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # -------------------------------------------------------------------
 # Schemas Pydantic
 # -------------------------------------------------------------------
@@ -121,6 +132,22 @@ def health_check():
         "message": "SenSante API is running"
     }
 
+
+# -------------------------------------------------------------------
+# Route model-info
+# -------------------------------------------------------------------
+
+@app.get("/model-info")
+def model_info():
+    """Informations sur le modele."""
+
+    return {
+        "type_modele": type(model).__name__,
+        "nombre_arbres": model.n_estimators,
+        "classes": list(model.classes_),
+        "nombre_features": len(feature_cols)
+    }
+
 # -------------------------------------------------------------------
 # Route predict
 # -------------------------------------------------------------------
@@ -201,11 +228,11 @@ def predict(patient: PatientInput):
     # ---------------------------------------------------------------
 
     messages = {
-    "palu": "Suspicion de paludisme. Consultez un medecin rapidement.",
-    "grippe": "Suspicion de grippe. Repos et hydratation recommandes.",
-    "typh": "Suspicion de typhoide. Consultation medicale necessaire.",
-    "sain": "Pas de pathologie detectee. Continuez a surveiller."
-}
+        "palu": "Suspicion de paludisme. Consultez un medecin rapidement.",
+        "grippe": "Suspicion de grippe. Repos et hydratation recommandes.",
+        "typh": "Suspicion de typhoide. Consultation medicale necessaire.",
+        "sain": "Pas de pathologie detectee. Continuez a surveiller."
+    }
 
     # ---------------------------------------------------------------
     # 6. Retourner le resultat
