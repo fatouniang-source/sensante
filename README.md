@@ -7,9 +7,7 @@ sdk: docker
 pinned: false
 ---
 
-# SenSante
 
-Assistant de pré-diagnostic médical pour le Sénégal.
 
 <!-- <<<<<<< HEAD
 # SenSante
@@ -42,19 +40,29 @@ Check out the configuration reference at https://huggingface.co/docs/hub/spaces-
 >>>>>>> 029822ea75db00cdf577e58e2332fe178c9c113c -->
 
 
+
+
+
+
 # SenSante
 
-Assistant de pré-diagnostic médical pour le Sénégal.
+Assistant pré-diagnostic médical pour le Sénégal.
+
+## Démo en ligne
+
+https://fatouniang-sensante.hf.space
 
 ## Stack
-- FastAPI
-- scikit-learn
-- Groq
-- Docker
+
+- scikit-learn (modèle ML)
+- FastAPI (API REST)
+- Tailwind CSS (frontend responsive)
+- Groq / Llama 3 (explication LLM)
+- Docker (conteneurisation)
 
 ## Auteur
-Fatou Niang
 
+Fatou Niang - L2 GLSI - ESP/UCAD - 2026
 
 
 
