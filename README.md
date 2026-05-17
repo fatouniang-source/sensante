@@ -1,3 +1,16 @@
+---
+title: SenSante
+emoji: 🏥
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
+
+# SenSante
+
+Assistant de pré-diagnostic médical pour le Sénégal.
+
 <!-- <<<<<<< HEAD
 # SenSante
 Assistant de pre - diagnostic medical pour le Senegal .
@@ -41,3 +54,10 @@ Assistant de pré-diagnostic médical pour le Sénégal.
 
 ## Auteur
 Fatou Niang
+
+
+
+
+
+
+
